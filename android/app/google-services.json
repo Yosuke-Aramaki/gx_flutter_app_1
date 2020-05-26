@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "997516641132",
+    "firebase_url": "https://gx-app-1.firebaseio.com",
+    "project_id": "gx-app-1",
+    "storage_bucket": "gx-app-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997516641132:android:e1d5f8265465c70a0f2949",
+        "android_client_info": {
+          "package_name": "com.example.gx_app_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "997516641132-5ri0fller37g8vd89pin00v0ah7foqqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUnqs4QccodzYRVdlYAzU3Kb9uRVxvh7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "997516641132-5ri0fller37g8vd89pin00v0ah7foqqc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "997516641132-6bf0k83ot9ubimv9ln5inb3nlao5p242.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gxApp1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
