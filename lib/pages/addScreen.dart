@@ -19,7 +19,7 @@ class _AddScreenState extends State<AddScreen> {
   int _lectureDifficulty;
   int _lectureAttendance;
   int _lectureHWFrequency;
-  final _commnetController = TextEditingController();
+  final _commentController = TextEditingController();
 
   void _handleQualityChanged(int value) {
     setState(() {
