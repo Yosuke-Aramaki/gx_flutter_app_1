@@ -226,7 +226,7 @@ class _AddScreenState extends State<AddScreen> {
   
   Widget lecQualityButton() {
    return Container(
-     margin: EdgeInsets.only(top:10.0, bottom: 10.0, left: 4.0),
+     margin: EdgeInsets.only(top:20.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
       decoration: BoxDecoration(
         color: Colors.grey[50],
@@ -307,7 +307,7 @@ class _AddScreenState extends State<AddScreen> {
   
   Widget lecDifficultyButton() {
     return Container(
-      margin: EdgeInsets.only(top:10.0, bottom: 10.0, left: 4.0),
+      margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
       decoration: BoxDecoration(
         color: Colors.grey[50],
@@ -388,7 +388,7 @@ class _AddScreenState extends State<AddScreen> {
 
   Widget lecAttendanceButton() {
     return Container(
-      margin: EdgeInsets.only(top:10.0, bottom: 10.0, left: 4.0),
+      margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
       decoration: BoxDecoration(
         color: Colors.grey[50],
@@ -439,7 +439,7 @@ class _AddScreenState extends State<AddScreen> {
 
   Widget lecHWFrequencyButton() {
     return Container(
-      margin: EdgeInsets.only(top:10.0, bottom: 10.0, left: 4.0),
+      margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
       decoration: BoxDecoration(
         color: Colors.grey[50],
@@ -509,84 +509,90 @@ class _AddScreenState extends State<AddScreen> {
         elevation: 0.0,
         title: Text(''),
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-        decoration: BoxDecoration(
-          color: Color(0xffCBDEFB),
-        ),
-        child: SingleChildScrollView(          
-          child: Column(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.only(top:25.0, bottom: 20.0),
-                child: Text(
-                  '授業評価を投稿',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[50],
-                  border: Border.all(
-                    color: Colors.grey[50],
-                    width: 2.0,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    _univDropdown(context),
-                    _depDropdown(),
-                    _lecDropdown(),
-                  ],
-                ),
-              ),
-              lecQualityButton(),
-              lecDifficultyButton(),
-              lecAttendanceButton(),
-              lecHWFrequencyButton(),
-              Container(
-                margin: EdgeInsets.only(top:7.0, left: 4.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey[50],
-                  border: Border.all(
-                    color: Colors.grey[50],
-                    width: 2.0,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: TextField(
-                  controller: _commnetController,
-                  decoration: InputDecoration(
-                    labelText: 'コメント欄'
-                  ),
-                ),
-              ),
-              SizedBox(height: 30.0),
-              RaisedButton(
-                child: Text('投稿する'),
-                onPressed: () async {
-                  await Firestore.instance.collection(_univ).document(_dep).collection(_lec).document().setData(
-                    {
-                      "quality": _lecQuality,
-                      "difficulty": _lecDifficulty,
-                      "attendance": _lecAttendance,
-                      "hw": _lecHWFrequency,
-                      "comment": _commnetController.text,
-                    }
-                  );
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(height: 90.0)
-            ],
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+          decoration: BoxDecoration(
+            color: Color(0xffCBDEFB),
           ),
-        ), 
+          child: SingleChildScrollView(          
+            child: Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(top:25.0, bottom: 20.0),
+                  child: Text(
+                    '授業評価を投稿',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    border: Border.all(
+                      color: Colors.grey[50],
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      _univDropdown(context),
+                      _depDropdown(),
+                      _lecDropdown(),
+                    ],
+                  ),
+                ),
+                lecQualityButton(),
+                lecDifficultyButton(),
+                lecAttendanceButton(),
+                lecHWFrequencyButton(),
+                Container(
+                  margin: EdgeInsets.only(top:10.0),
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    border: Border.all(
+                      color: Colors.grey[50],
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    controller: _commnetController,
+                    decoration: InputDecoration(
+                      labelText: 'コメント欄',
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30.0),
+                RaisedButton(
+                  child: Text('投稿する'),
+                  onPressed: () async {
+                    await Firestore.instance.collection(_univ).document(_dep).collection(_lec).document().setData(
+                      {
+                        "quality": _lecQuality,
+                        "difficulty": _lecDifficulty,
+                        "attendance": _lecAttendance,
+                        "hw": _lecHWFrequency,
+                        "comment": _commnetController.text,
+                      }
+                    );
+                    Navigator.pop(context);
+                  },
+                ),
+                SizedBox(height: 90.0)
+              ],
+            ),
+          ), 
+        ),
       ),
     );
   }
