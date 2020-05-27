@@ -224,9 +224,17 @@ class _AddScreenState extends State<AddScreen> {
     }
   }
   
-  Widget lecQualityButton() {
-   return Container(
-     margin: EdgeInsets.only(top:20.0, bottom: 10.0),
+  List<ReviewsModel> _lectureQualityButtonGroup = [
+    ReviewsModel(title: "非常によい", value: 5),
+    ReviewsModel(title: "よい", value: 4),
+    ReviewsModel(title: "ふつう", value: 3),
+    ReviewsModel(title: "わるい", value: 2),
+    ReviewsModel(title: "非常にわるい", value: 1),
+  ];
+
+  Widget lectureQualityButton() {
+    return Container(
+      margin: EdgeInsets.only(top:20.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
       decoration: BoxDecoration(
         color: Colors.grey[50],
@@ -236,76 +244,42 @@ class _AddScreenState extends State<AddScreen> {
         ),
         borderRadius: BorderRadius.circular(12),
       ),
-     child: Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top:7.0,),
-          alignment: Alignment.centerLeft,
-          child: new Text(
-            '授業の質',
-            style: TextStyle(fontSize: 18),
-          )
-        ),
-        Column(
-          children: <Widget>[
-              Row(
-                children: <Widget>[
-                  new Radio(
-                    value: 1,
-                    groupValue: _lectureQuality,
-                    onChanged: _setQuality,
-                  ),
-                  new Text('非常に悪い'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 2,
-                  groupValue: _lectureQuality,
-                  onChanged: _setQuality,
-                ),
-                new Text('悪い'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 3,
-                  groupValue: _lectureQuality,
-                  onChanged: _setQuality,
-                ),
-                new Text('ふつう'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 4,
-                  groupValue: _lectureQuality,
-                  onChanged: _setQuality,
-                ),
-                new Text('良い'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 5,
-                  groupValue: _lectureQuality,
-                  onChanged: _setQuality,
-                ),
-                new Text('非常に良い'),
-                ],
-              ),
-            ],
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top:7.0,),
+            alignment: Alignment.centerLeft,
+            child: new Text(
+              '授業の質',
+              style: TextStyle(fontSize: 18),
+            )
+          ),
+          Column(
+            children:_lectureQualityButtonGroup.map((data) => RadioListTile(
+              title: Text(data.title),
+              groupValue: _lectureQuality,
+              value: data.value,
+              onChanged: (value) {
+                setState(() {
+                  _lectureQuality = value;
+                });
+              },
+            )).toList(),
           ),
         ],
       ),
-   );
+    );
   }
-  
-  Widget lecDifficultyButton() {
+
+  List<ReviewsModel> _lectureDifficlutyButtonGroup = [
+    ReviewsModel(title: "非常にやさしい", value: 5),
+    ReviewsModel(title: "やさしい", value: 4),
+    ReviewsModel(title: "ふつう", value: 3),
+    ReviewsModel(title: "むづかしい", value: 2),
+    ReviewsModel(title: "非常にむずかしい", value: 1),
+  ];
+
+  Widget lectureDifficultyButton() {
     return Container(
       margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
@@ -328,65 +302,28 @@ class _AddScreenState extends State<AddScreen> {
             )
           ),
           Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  new Radio(
-                    value: 1,
-                    groupValue: _lectureDifficulty,
-                    onChanged: _setDifficulty,
-                  ),
-                  new Text('非常に優しい'),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                new Radio(
-                  value: 2,
-                  groupValue: _lectureDifficulty,
-                  onChanged: _setDifficulty,
-                ),
-                new Text('優しい'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 3,
-                  groupValue: _lectureDifficulty,
-                  onChanged: _setDifficulty,
-                ),
-                new Text('ふつう'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 4,
-                  groupValue: _lectureDifficulty,
-                  onChanged: _setDifficulty,
-                ),
-                new Text('難しい'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 5,
-                  groupValue: _lectureDifficulty,
-                  onChanged: _setDifficulty,
-                ),
-                new Text('非常に難しい'),
-                ],
-              ),
-            ],
+            children:_lectureDifficlutyButtonGroup.map((data) => RadioListTile(
+              title: Text(data.title),
+              groupValue: _lectureDifficulty,
+              value: data.value,
+              onChanged: (value) {
+                setState(() {
+                  _lectureDifficulty = value;
+                });
+              },
+            )).toList(),
           ), 
-       ],
-   ),
+        ],
+      ),
     );
   }
 
-  Widget lecAttendanceButton() {
+  List<ReviewsModel> _lectureAttendanceButtonGroup = [
+    ReviewsModel(title: "必須", value: 1),
+    ReviewsModel(title: "必須でない", value: 2),
+  ];
+
+  Widget lectureAttendanceButton() {
     return Container(
       margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
@@ -409,35 +346,29 @@ class _AddScreenState extends State<AddScreen> {
             )
           ),
           Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 1,
-                  groupValue: _lectureAttendance,
-                  onChanged: _setAttendance,
-                ),
-                new Text('必須'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 2,
-                  groupValue: _lectureAttendance,
-                  onChanged: _setAttendance,
-                ),
-                new Text('必須でない'),
-                ],
-              ),
-            ]
-          ),
+            children:_lectureAttendanceButtonGroup.map((data) => RadioListTile(
+              title: Text(data.title),
+              groupValue: _lectureAttendance,
+              value: data.value,
+              onChanged: (value) {
+                setState(() {
+                  _lectureAttendance = value;
+                });
+              },
+            )).toList(),
+          ), 
         ],
       ),
     );
   }
 
-  Widget lecHWFrequencyButton() {
+  List<ReviewsModel> _lectureHWFrequencyButtonGroup = [
+    ReviewsModel(title: "毎回ある", value: 1),
+    ReviewsModel(title: "たまに", value: 2),
+    ReviewsModel(title: "ほとんどない", value: 3),
+  ];
+
+  Widget lectureHWFrequencyButton() {
     return Container(
       margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
@@ -460,39 +391,17 @@ class _AddScreenState extends State<AddScreen> {
             )
           ),
           Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 1,
-                  groupValue: _lectureHWFrequency,
-                  onChanged: _setHWFrequency,
-                ),
-                new Text('毎回ある'),
-                ],
-              ),
-              Row(
-                children: <Widget>[    
-                new Radio(
-                  value: 2,
-                  groupValue: _lectureHWFrequency,
-                  onChanged: _setHWFrequency,
-                ),
-                new Text('たまに'),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                new Radio(
-                  value: 3,
-                  groupValue: _lectureHWFrequency,
-                  onChanged: _setHWFrequency,
-                ),
-                new Text('ほとんどない'),
-                ],
-              ),
-            ]
-          ),
+            children:_lectureHWFrequencyButtonGroup.map((data) => RadioListTile(
+              title: Text(data.title),
+              groupValue: _lectureHWFrequency,
+              value: data.value,
+              onChanged: (value) {
+                setState(() {
+                  _lectureHWFrequency = value;
+                });
+              },
+            )).toList(),
+          ), 
         ],
       ),
     );
@@ -548,10 +457,10 @@ class _AddScreenState extends State<AddScreen> {
                     ],
                   ),
                 ),
-                lecQualityButton(),
-                lecDifficultyButton(),
-                lecAttendanceButton(),
-                lecHWFrequencyButton(),
+                lectureQualityButton(),
+                lectureDifficultyButton(),
+                lectureAttendanceButton(),
+                lectureHWFrequencyButton(),
                 Container(
                   margin: EdgeInsets.only(top:10.0),
                   padding: EdgeInsets.only(bottom: 8.0),
@@ -566,7 +475,7 @@ class _AddScreenState extends State<AddScreen> {
                   child: TextField(
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    controller: _commnetController,
+                    controller: _commentController,
                     decoration: InputDecoration(
                       labelText: 'コメント欄',
                     ),
@@ -582,7 +491,7 @@ class _AddScreenState extends State<AddScreen> {
                         "difficulty": _lectureDifficulty,
                         "attendance": _lectureAttendance,
                         "hw": _lectureHWFrequency,
-                        "comment": _commnetController.text,
+                        "comment": _commentController.text,
                       }
                     );
                     Navigator.pop(context);
@@ -596,4 +505,10 @@ class _AddScreenState extends State<AddScreen> {
       ),
     );
   }
+}
+
+class ReviewsModel {
+  String title;
+  int value;
+  ReviewsModel({this.title, this.value});
 }
