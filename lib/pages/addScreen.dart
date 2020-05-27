@@ -21,25 +21,25 @@ class _AddScreenState extends State<AddScreen> {
   int _lectureHWFrequency;
   final _commnetController = TextEditingController();
 
-  void _handleQualityChanged(int value) {
+  void _setQuality(int value) {
     setState(() {
       _lectureQuality = value; 
     });
   }
 
-  void _handleDifficultyChanged(int value) {
+  void _setDifficulty(int value) {
     setState(() {
       _lectureDifficulty = value; 
     });
   }
 
-  void _handleAttendanceChanged(int value) {
+  void _setAttendance(int value) {
     setState(() {
       _lectureAttendance = value; 
     });
   }
   
-  void _handleHWFrequencyChanged(int value) {
+  void _setHWFrequency(int value) {
     setState(() {
       _lectureHWFrequency = value; 
     });
@@ -253,7 +253,7 @@ class _AddScreenState extends State<AddScreen> {
                   new Radio(
                     value: 1,
                     groupValue: _lectureQuality,
-                    onChanged: _handleQualityChanged,
+                    onChanged: _setQuality,
                   ),
                   new Text('非常に悪い'),
                 ],
@@ -263,7 +263,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 2,
                   groupValue: _lectureQuality,
-                  onChanged: _handleQualityChanged,
+                  onChanged: _setQuality,
                 ),
                 new Text('悪い'),
                 ],
@@ -273,7 +273,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 3,
                   groupValue: _lectureQuality,
-                  onChanged: _handleQualityChanged,
+                  onChanged: _setQuality,
                 ),
                 new Text('ふつう'),
                 ],
@@ -283,7 +283,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 4,
                   groupValue: _lectureQuality,
-                  onChanged: _handleQualityChanged,
+                  onChanged: _setQuality,
                 ),
                 new Text('良い'),
                 ],
@@ -293,7 +293,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 5,
                   groupValue: _lectureQuality,
-                  onChanged: _handleQualityChanged,
+                  onChanged: _setQuality,
                 ),
                 new Text('非常に良い'),
                 ],
@@ -334,7 +334,7 @@ class _AddScreenState extends State<AddScreen> {
                   new Radio(
                     value: 1,
                     groupValue: _lectureDifficulty,
-                    onChanged: _handleDifficultyChanged,
+                    onChanged: _setDifficulty,
                   ),
                   new Text('非常に優しい'),
                 ],
@@ -344,7 +344,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 2,
                   groupValue: _lectureDifficulty,
-                  onChanged: _handleDifficultyChanged,
+                  onChanged: _setDifficulty,
                 ),
                 new Text('優しい'),
                 ],
@@ -354,7 +354,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 3,
                   groupValue: _lectureDifficulty,
-                  onChanged: _handleDifficultyChanged,
+                  onChanged: _setDifficulty,
                 ),
                 new Text('ふつう'),
                 ],
@@ -364,7 +364,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 4,
                   groupValue: _lectureDifficulty,
-                  onChanged: _handleDifficultyChanged,
+                  onChanged: _setDifficulty,
                 ),
                 new Text('難しい'),
                 ],
@@ -374,7 +374,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 5,
                   groupValue: _lectureDifficulty,
-                  onChanged: _handleDifficultyChanged,
+                  onChanged: _setDifficulty,
                 ),
                 new Text('非常に難しい'),
                 ],
@@ -415,7 +415,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 1,
                   groupValue: _lectureAttendance,
-                  onChanged: _handleAttendanceChanged,
+                  onChanged: _setAttendance,
                 ),
                 new Text('必須'),
                 ],
@@ -425,7 +425,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 2,
                   groupValue: _lectureAttendance,
-                  onChanged: _handleAttendanceChanged,
+                  onChanged: _setAttendance,
                 ),
                 new Text('必須でない'),
                 ],
@@ -466,7 +466,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 1,
                   groupValue: _lectureHWFrequency,
-                  onChanged: _handleHWFrequencyChanged,
+                  onChanged: _setHWFrequency,
                 ),
                 new Text('毎回ある'),
                 ],
@@ -476,7 +476,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 2,
                   groupValue: _lectureHWFrequency,
-                  onChanged: _handleHWFrequencyChanged,
+                  onChanged: _setHWFrequency,
                 ),
                 new Text('たまに'),
                 ],
@@ -486,7 +486,7 @@ class _AddScreenState extends State<AddScreen> {
                 new Radio(
                   value: 3,
                   groupValue: _lectureHWFrequency,
-                  onChanged: _handleHWFrequencyChanged,
+                  onChanged: _setHWFrequency,
                 ),
                 new Text('ほとんどない'),
                 ],
