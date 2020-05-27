@@ -1,36 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class LecInfoScreen extends StatefulWidget {
+class LectureInfoScreen extends StatefulWidget {
   @override 
-  _LecInfoScreen createState() {
-    return _LecInfoScreen();
+  _LectureInfoScreen createState() {
+    return _LectureInfoScreen();
   }
 }
 
-class _LecInfoScreen extends State<LecInfoScreen> {
-  var lecInfo = new Map();
+class _LectureInfoScreen extends State<LectureInfoScreen> {
+  var lectureInfo = new Map();
   
   @override
   Widget build(BuildContext context) {
-    lecInfo = ModalRoute.of(context).settings.arguments;
+    lectureInfo = ModalRoute.of(context).settings.arguments;
     
     return Scaffold(
       appBar: AppBar(
-        title: Text(lecInfo['lec']),
+        title: Text(lectureInfo['lecture']),
       ),
       body: Column(
         children: <Widget>[
-          _lecListHeader(),
+          _lectureListHeader(),
           Expanded(
-            child: _buildBody(context, lecInfo),
+            child: _buildBody(context, lectureInfo),
           ),
         ],  
       ),
     );
   }
 
-  Widget _lecListHeader() {
+  Widget _lectureListHeader() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.0),
       decoration: BoxDecoration(
@@ -66,7 +66,7 @@ class _LecInfoScreen extends State<LecInfoScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          lecInfo['lecSummary']['qualityAvg'].toString(),
+                          lectureInfo['lectureSummary']['qualityAvg'].toString(),
                           style: TextStyle(fontSize: 30),
                         ),
                       ),
@@ -97,7 +97,7 @@ class _LecInfoScreen extends State<LecInfoScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          lecInfo['lecSummary']['difficultyAvg'].toString(),
+                          lectureInfo['lectureSummary']['difficultyAvg'].toString(),
                           style: TextStyle(fontSize: 30),
                         ),
                       ),
@@ -110,16 +110,16 @@ class _LecInfoScreen extends State<LecInfoScreen> {
           Container(
             alignment: Alignment.centerRight,
             padding: EdgeInsets.only(right: 14),
-            child: Text(lecInfo['lecSummary']['quantity'].toString() + '件の口コミ')
+            child: Text(lectureInfo['lectureSummary']['quantity'].toString() + '件の口コミ')
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context, Map lecInfo) {
+  Widget _buildBody(BuildContext context, Map lectureInfo) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection(lecInfo['univ']).document(lecInfo['dep']).collection(lecInfo['lec']).snapshots(),
+      stream: Firestore.instance.collection(lectureInfo['university']).document(lectureInfo['department']).collection(lectureInfo['lecture']).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
 

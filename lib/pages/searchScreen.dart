@@ -7,21 +7,21 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreen extends State<SearchScreen> {
-  String _univ;
-  String _dep = '指定しない';
-  String _lec = '指定しない';
+  String _university;
+  String _department = '指定しない';
+  String _lecture = '指定しない';
   List<String> depList = [];
   List<String> lecList = [];
-  bool _univSelected = false;
-  bool _depSelected = false;
-  bool _lecSelected = false;
+  bool _universitySelected = false;
+  bool _departmentSelected = false;
+  bool _lectureSelected = false;
   // Set arguments = {};
   var arguments = new Map();
   Map<String, dynamic> lecSummaryInfo;
 
 
   Future<QuerySnapshot> getDepList() async {
-    QuerySnapshot dlist = await Firestore.instance.collection('univ_list').document(_univ).collection('dep_list').getDocuments();
+    QuerySnapshot dlist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').getDocuments();
     depList = [];
     depList.add('指定しない');
     for (int i = 0; i < dlist.documents.length; i++) {
@@ -29,12 +29,12 @@ class _SearchScreen extends State<SearchScreen> {
       depList.add(a);
     }
     setState(() {
-      _univSelected = true;
+      _universitySelected = true;
     });
   }
 
   Future<QuerySnapshot> getLecList() async {
-    QuerySnapshot llist = await Firestore.instance.collection('univ_list').document(_univ).collection('dep_list').document(_dep).collection('lec_list').getDocuments();
+    QuerySnapshot llist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').getDocuments();
     lecList = [];
     lecList.add('指定しない');
     for (int i = 0; i < llist.documents.length; i++) {
@@ -42,11 +42,11 @@ class _SearchScreen extends State<SearchScreen> {
       lecList.add(a);
     }
     setState(() {
-      _depSelected = true;
+      _departmentSelected = true;
     });
   }
 
-  Widget _univDropdown(context) {
+  Widget _universityDropdown(context) {
     List<String> univList = ModalRoute.of(context).settings.arguments;
     return Container(
       margin: EdgeInsets.only(right: 40.0),
@@ -56,14 +56,14 @@ class _SearchScreen extends State<SearchScreen> {
           borderRadius: BorderRadius.circular(40),
         ),
         child: DropdownButton<String>(
-          value: _univ,
+          value: _university,
           isExpanded: true,
           underline: Container(),
         onChanged: (String value) {
           setState(() {
-            _univ = value;
-            _dep = '指定しない';
-            _lec = '指定しない';
+            _university = value;
+            _department = '指定しない';
+            _lecture = '指定しない';
           });
           getDepList();
         },
@@ -77,8 +77,8 @@ class _SearchScreen extends State<SearchScreen> {
     );
   }
   
-  Widget _depDropdown() {
-    if (_univSelected) {
+  Widget _departmentDropdown() {
+    if (_universitySelected) {
       return Container(
         margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -87,13 +87,13 @@ class _SearchScreen extends State<SearchScreen> {
           borderRadius: BorderRadius.circular(40),
         ),
         child: DropdownButton<String>(
-          value: _dep,
+          value: _department,
           isExpanded: true,
           underline: Container(),
           onChanged: (String value) async {
             setState(() {
-              _dep = value;
-              _lec = '指定しない';
+              _department = value;
+              _lecture = '指定しない';
             });
             getLecList();
           },
@@ -115,12 +115,12 @@ class _SearchScreen extends State<SearchScreen> {
           borderRadius: BorderRadius.circular(40),
         ),
         child: DropdownButton<String>(
-          value: _dep,
+          value: _department,
           isExpanded: true,
           underline: Container(),
           onChanged: (String value) async {
             setState(() {
-              _dep = value;
+              _department = value;
             });
           },
           items: <String>['指定しない'].map<DropdownMenuItem<String>>((String value) {
@@ -134,8 +134,8 @@ class _SearchScreen extends State<SearchScreen> {
     }
   }
     
-  Widget _lecDropdown() {
-    if (_univSelected && _depSelected) {
+  Widget _lectureDropdown() {
+    if (_universitySelected && _departmentSelected) {
       return Container(
         margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -144,12 +144,12 @@ class _SearchScreen extends State<SearchScreen> {
           borderRadius: BorderRadius.circular(40),
         ),
         child: DropdownButton<String>(
-          value: _lec,
+          value: _lecture,
           isExpanded: true,
           underline: Container(),
           onChanged: (String value) {
             setState(() {
-              _lec = value;
+              _lecture = value;
             });
           },
           items: lecList.map<DropdownMenuItem<String>>((String value) {
@@ -170,13 +170,13 @@ class _SearchScreen extends State<SearchScreen> {
           borderRadius: BorderRadius.circular(40),
         ),
         child: DropdownButton<String>(
-          value: _lec,
+          value: _lecture,
           isExpanded: true,
           underline: Container(),
           icon: Icon(Icons.keyboard_arrow_down),
           onChanged: (String value) async {
             setState(() {
-              _lec = value;
+              _lecture = value;
             });
           },
           items: <String>['指定しない'].map<DropdownMenuItem<String>>((String value) {
@@ -206,7 +206,7 @@ class _SearchScreen extends State<SearchScreen> {
 
   Future<Map<String, dynamic>> getLecSummaryInfo() async {
     DocumentSnapshot docSnapshot =
-      await Firestore.instance.collection('univ_list').document(_univ).collection('dep_list').document(_dep).collection('lec_list').document(_lec).get();
+      await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').document(_lecture).get();
     lecSummaryInfo = docSnapshot.data;
   }
 
@@ -263,11 +263,11 @@ class _SearchScreen extends State<SearchScreen> {
                   )
                 ),
                 _dropDownTitle('大学'),
-                _univDropdown(context),
+                _universityDropdown(context),
                 _dropDownTitle('学部'),
-                _depDropdown(),
+                _departmentDropdown(),
                 _dropDownTitle('授業名'),
-                _lecDropdown(),
+                _lectureDropdown(),
                 SizedBox(height: 20.0),
                 Container(
                   child: RaisedButton(
@@ -281,16 +281,16 @@ class _SearchScreen extends State<SearchScreen> {
                       ),
                     ),
                     onPressed: 
-                    _dep == '指定しない' && _lec == '指定しない' ? () async{
+                    _department == '指定しない' && _lecture == '指定しない' ? () async{
                       await removeDefaultValue(depList);
-                      arguments ={'univ': _univ, 'dep': _dep, 'depList': depList};
+                      arguments ={'university': _university, 'department': _department, 'departmentList': depList};
                       Navigator.pushNamed(
                         context, 
                         '/LecListScreen',
                         arguments: arguments,
                       );
-                    } : _dep != '指定しない' && _lec == '指定しない' ? () async{
-                      arguments ={'univ': _univ, 'dep': _dep, 'lec': _lec};
+                    } : _department != '指定しない' && _lecture == '指定しない' ? () async{
+                      arguments ={'university': _university, 'department': _department, 'lecture': _lecture};
                       Navigator.pushNamed(
                         context, 
                         '/LecListScreen',
@@ -298,10 +298,10 @@ class _SearchScreen extends State<SearchScreen> {
                       );
                     } : () async{
                       await getLecSummaryInfo();
-                      arguments ={'univ': _univ, 'dep': _dep, 'lec': _lec, 'lecSummary': lecSummaryInfo};
+                      arguments ={'university': _university, 'department': _department, 'lecture': _lecture, 'lectureSummary': lecSummaryInfo};
                       Navigator.pushNamed(
                         context, 
-                        '/LecInfoScreen',
+                        '/LectureInformationScreen',
                         arguments: arguments,
                       );
                     } 

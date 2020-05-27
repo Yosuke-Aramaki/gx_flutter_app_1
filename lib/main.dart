@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:gx_app_1/pages/addScreen.dart';
 import 'package:gx_app_1/pages/lecInfoScreen.dart';
 import 'package:gx_app_1/pages/lecListScreen.dart';
@@ -17,8 +16,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => HomePage(),
         '/SearchScreen': (context) => SearchScreen(),
         '/AddScreen': (context) => AddScreen(),
-        '/LecInfoScreen': (context) => LecInfoScreen(),
-        '/LecListScreen': (context) => LecListScreen(),
+        '/LectureInfoScreen': (context) => LectureInfoScreen(),
+        '/LecListScreen': (context) => LectureListScreen(),
       },
     );
   }

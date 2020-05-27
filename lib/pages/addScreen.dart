@@ -7,46 +7,46 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  String _univ;
-  String _dep;
-  String _lec;
+  String _university;
+  String _department;
+  String _lecture;
   List<String> depList = [];
   List<String> lecList = [];
-  bool _univSelected = false;
-  bool _depSelected = false;
-  bool _lecSelected = false;
-  int _lecQuality;
-  int _lecDifficulty;
-  int _lecAttendance;
-  int _lecHWFrequency;
+  bool _universitySelected = false;
+  bool _departmentSelected = false;
+  bool _lectureSelected = false;
+  int _lectureQuality;
+  int _lectureDifficulty;
+  int _lectureAttendance;
+  int _lectureHWFrequency;
   final _commnetController = TextEditingController();
 
   void _handleQualityChanged(int value) {
     setState(() {
-      _lecQuality = value; 
+      _lectureQuality = value; 
     });
   }
 
   void _handleDifficultyChanged(int value) {
     setState(() {
-      _lecDifficulty = value; 
+      _lectureDifficulty = value; 
     });
   }
 
   void _handleAttendanceChanged(int value) {
     setState(() {
-      _lecAttendance = value; 
+      _lectureAttendance = value; 
     });
   }
   
   void _handleHWFrequencyChanged(int value) {
     setState(() {
-      _lecHWFrequency = value; 
+      _lectureHWFrequency = value; 
     });
   }
 
   Future<QuerySnapshot> getDepList() async {
-    QuerySnapshot dlist = await Firestore.instance.collection('univ_list').document(_univ).collection('dep_list').getDocuments();
+    QuerySnapshot dlist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').getDocuments();
     depList = [];
     depList.add('指定しない');
     for (int i = 0; i < dlist.documents.length; i++) {
@@ -54,12 +54,12 @@ class _AddScreenState extends State<AddScreen> {
       depList.add(a);
     }
     setState(() {
-      _univSelected = true;
+      _universitySelected = true;
     });
   }
 
   Future<QuerySnapshot> getLecList() async {
-    QuerySnapshot llist = await Firestore.instance.collection('univ_list').document(_univ).collection('dep_list').document(_dep).collection('lec_list').getDocuments();
+    QuerySnapshot llist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').getDocuments();
     lecList = [];
     lecList.add('指定しない');
     for (int i = 0; i < llist.documents.length; i++) {
@@ -67,11 +67,11 @@ class _AddScreenState extends State<AddScreen> {
       lecList.add(a);
     }
     setState(() {
-      _depSelected = true;
+      _departmentSelected = true;
     });
   }
 
-  Widget _univDropdown(context) {
+  Widget _universityDropdown(context) {
     List<String> univList = ModalRoute.of(context).settings.arguments;
     return Container(
       margin: EdgeInsets.only(top:5.0, left: 14.0),
@@ -83,12 +83,12 @@ class _AddScreenState extends State<AddScreen> {
           ),
           SizedBox(width: 25.0),
           DropdownButton<String>(
-            value: _univ,
+            value: _university,
             onChanged: (String value) {
               setState(() {
-                _univ = value;
-                _dep = '指定しない';
-                _lec = '指定しない';
+                _university = value;
+                _department = '指定しない';
+                _lecture = '指定しない';
               });
               getDepList();
             },
@@ -104,8 +104,8 @@ class _AddScreenState extends State<AddScreen> {
     );
   }
 
-  Widget _depDropdown() {
-    if (_univSelected) {
+  Widget _departmentDropdown() {
+    if (_universitySelected) {
       return Container(
         margin: EdgeInsets.only(top:5.0, left: 14.0),
         child: Row(
@@ -116,11 +116,11 @@ class _AddScreenState extends State<AddScreen> {
             ),
             SizedBox(width: 25.0),
             new DropdownButton<String>(
-              value: _dep,
+              value: _department,
               onChanged: (String value) async {
                 setState(() {
-                  _dep = value;
-                  _lec = '指定しない';
+                  _department = value;
+                  _lecture = '指定しない';
                 });
                 getLecList();
               },
@@ -146,10 +146,10 @@ class _AddScreenState extends State<AddScreen> {
             ), 
             SizedBox(width: 25.0),
             new DropdownButton<String>(
-              value: _dep,
+              value: _department,
               onChanged: (String value) async {
                 setState(() {
-                  _dep = value;
+                  _department = value;
                 });
               },
               items: <String>['指定しない'].map<DropdownMenuItem<String>>((String value) {
@@ -165,8 +165,8 @@ class _AddScreenState extends State<AddScreen> {
     }
   }
     
-  Widget _lecDropdown() {
-    if (_univSelected && _depSelected) {
+  Widget _lectureDropdown() {
+    if (_universitySelected && _departmentSelected) {
       return Container(
         margin: EdgeInsets.only(top:5.0, left: 14.0),
         child: Row(
@@ -177,10 +177,10 @@ class _AddScreenState extends State<AddScreen> {
             ),
             SizedBox(width: 25.0),
             new DropdownButton<String>(
-              value: _lec,
+              value: _lecture,
               onChanged: (String value) {
                 setState(() {
-                  _lec = value;
+                  _lecture = value;
                 });
               },
               items: lecList.map<DropdownMenuItem<String>>((String value) {
@@ -205,10 +205,10 @@ class _AddScreenState extends State<AddScreen> {
             ), 
             SizedBox(width: 25.0),
             new DropdownButton<String>(
-              value: _lec,
+              value: _lecture,
               onChanged: (String value) async {
                 setState(() {
-                  _lec = value;
+                  _lecture = value;
                 });
               },
               items: <String>['指定しない'].map<DropdownMenuItem<String>>((String value) {
@@ -252,7 +252,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[
                   new Radio(
                     value: 1,
-                    groupValue: _lecQuality,
+                    groupValue: _lectureQuality,
                     onChanged: _handleQualityChanged,
                   ),
                   new Text('非常に悪い'),
@@ -262,7 +262,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 2,
-                  groupValue: _lecQuality,
+                  groupValue: _lectureQuality,
                   onChanged: _handleQualityChanged,
                 ),
                 new Text('悪い'),
@@ -272,7 +272,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 3,
-                  groupValue: _lecQuality,
+                  groupValue: _lectureQuality,
                   onChanged: _handleQualityChanged,
                 ),
                 new Text('ふつう'),
@@ -282,7 +282,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 4,
-                  groupValue: _lecQuality,
+                  groupValue: _lectureQuality,
                   onChanged: _handleQualityChanged,
                 ),
                 new Text('良い'),
@@ -292,7 +292,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 5,
-                  groupValue: _lecQuality,
+                  groupValue: _lectureQuality,
                   onChanged: _handleQualityChanged,
                 ),
                 new Text('非常に良い'),
@@ -333,7 +333,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[
                   new Radio(
                     value: 1,
-                    groupValue: _lecDifficulty,
+                    groupValue: _lectureDifficulty,
                     onChanged: _handleDifficultyChanged,
                   ),
                   new Text('非常に優しい'),
@@ -343,7 +343,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[
                 new Radio(
                   value: 2,
-                  groupValue: _lecDifficulty,
+                  groupValue: _lectureDifficulty,
                   onChanged: _handleDifficultyChanged,
                 ),
                 new Text('優しい'),
@@ -353,7 +353,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 3,
-                  groupValue: _lecDifficulty,
+                  groupValue: _lectureDifficulty,
                   onChanged: _handleDifficultyChanged,
                 ),
                 new Text('ふつう'),
@@ -363,7 +363,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 4,
-                  groupValue: _lecDifficulty,
+                  groupValue: _lectureDifficulty,
                   onChanged: _handleDifficultyChanged,
                 ),
                 new Text('難しい'),
@@ -373,7 +373,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 5,
-                  groupValue: _lecDifficulty,
+                  groupValue: _lectureDifficulty,
                   onChanged: _handleDifficultyChanged,
                 ),
                 new Text('非常に難しい'),
@@ -414,7 +414,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 1,
-                  groupValue: _lecAttendance,
+                  groupValue: _lectureAttendance,
                   onChanged: _handleAttendanceChanged,
                 ),
                 new Text('必須'),
@@ -424,7 +424,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 2,
-                  groupValue: _lecAttendance,
+                  groupValue: _lectureAttendance,
                   onChanged: _handleAttendanceChanged,
                 ),
                 new Text('必須でない'),
@@ -465,7 +465,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 1,
-                  groupValue: _lecHWFrequency,
+                  groupValue: _lectureHWFrequency,
                   onChanged: _handleHWFrequencyChanged,
                 ),
                 new Text('毎回ある'),
@@ -475,7 +475,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[    
                 new Radio(
                   value: 2,
-                  groupValue: _lecHWFrequency,
+                  groupValue: _lectureHWFrequency,
                   onChanged: _handleHWFrequencyChanged,
                 ),
                 new Text('たまに'),
@@ -485,7 +485,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[
                 new Radio(
                   value: 3,
-                  groupValue: _lecHWFrequency,
+                  groupValue: _lectureHWFrequency,
                   onChanged: _handleHWFrequencyChanged,
                 ),
                 new Text('ほとんどない'),
@@ -542,9 +542,9 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      _univDropdown(context),
-                      _depDropdown(),
-                      _lecDropdown(),
+                      _universityDropdown(context),
+                      _departmentDropdown(),
+                      _lectureDropdown(),
                     ],
                   ),
                 ),
@@ -576,12 +576,12 @@ class _AddScreenState extends State<AddScreen> {
                 RaisedButton(
                   child: Text('投稿する'),
                   onPressed: () async {
-                    await Firestore.instance.collection(_univ).document(_dep).collection(_lec).document().setData(
+                    await Firestore.instance.collection(_university).document(_department).collection(_lecture).document().setData(
                       {
-                        "quality": _lecQuality,
-                        "difficulty": _lecDifficulty,
-                        "attendance": _lecAttendance,
-                        "hw": _lecHWFrequency,
+                        "quality": _lectureQuality,
+                        "difficulty": _lectureDifficulty,
+                        "attendance": _lectureAttendance,
+                        "hw": _lectureHWFrequency,
                         "comment": _commnetController.text,
                       }
                     );

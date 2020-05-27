@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class LecListScreen extends StatefulWidget {
+class LectureListScreen extends StatefulWidget {
   @override 
-  _LecListScreen createState() {
-    return _LecListScreen();
+  _LectureListScreen createState() {
+    return _LectureListScreen();
   }
 }
 
-class _LecListScreen extends State<LecListScreen> {
-  var lecInfo = new Map();
+class _LectureListScreen extends State<LectureListScreen> {
+  var lectureInformation = new Map();
 
   @override
   Widget build(BuildContext context) {
-    lecInfo = ModalRoute.of(context).settings.arguments;
+    lectureInformation = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -23,13 +23,13 @@ class _LecListScreen extends State<LecListScreen> {
         elevation: 0.0,
         title: Text('授業リスト'),
       ),
-      body: lecInfo['dep'] == '指定しない' ? Container(
+      body: lectureInformation['department'] == '指定しない' ? Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: <Widget>[
-            _univName(lecInfo['univ']),
+            _universityName(lectureInformation['university']),
             Expanded(
-              child: _buildAllLec(lecInfo),
+              child: _buildAllLec(lectureInformation),
             ),
           ],
         ),
@@ -37,10 +37,10 @@ class _LecListScreen extends State<LecListScreen> {
       : Container(
         child: Column(
           children: <Widget>[
-            _univName(lecInfo['univ']),
-            _depName(lecInfo['dep']),
+            _universityName(lectureInformation['university']),
+            _departmentName(lectureInformation['department']),
             Expanded(
-              child:  _buildBody(context, lecInfo),
+              child:  _buildBody(context, lectureInformation),
             ),
           ],  
         ), 
@@ -48,14 +48,14 @@ class _LecListScreen extends State<LecListScreen> {
     );
   }
 
-  Widget _univName(univ) {
+  Widget _universityName(university) {
     return SizedBox(
       child: Container(
         margin: const EdgeInsets.only(top: 15.0, bottom: 15.0),
         padding: const EdgeInsets.all(8.0),
         alignment: Alignment.centerLeft,
         child: Text(
-          univ,
+          university,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w700,
@@ -65,22 +65,22 @@ class _LecListScreen extends State<LecListScreen> {
     );
   }
 
-  Widget _depName(dep) {
+  Widget _departmentName(department) {
     return SizedBox(
       child: Container(
         padding: EdgeInsets.only(bottom: 15.0),
         alignment: Alignment.centerLeft,
         child: Text(
-          dep,
+          department,
           style: TextStyle(fontSize: 25),
         ),
       ),
     );
   }
 
-  Widget _buildAllLec(Map lecInfo) {
+  Widget _buildAllLec(Map lectureInformation) {
     return ListView.builder(
-      itemCount: lecInfo['depList'].length,
+      itemCount: lectureInformation['departmentList'].length,
       itemBuilder: (BuildContext context, int index) {
         return Container(
           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, left: 8.0),
@@ -89,10 +89,10 @@ class _LecListScreen extends State<LecListScreen> {
           ),
           child: Column(
             children: <Widget>[
-              _depName(lecInfo['depList'][index]),
+              _departmentName(lectureInformation['departmentList'][index]),
               Column(children: <Widget>[
                 StreamBuilder(
-                  stream: Firestore.instance.collection('univ_list').document(lecInfo['univ']).collection('dep_list').document(lecInfo['depList'][index]).collection('lec_list')
+                  stream: Firestore.instance.collection('univ_list').document(lectureInformation['university']).collection('dep_list').document(lectureInformation['departmentList'][index]).collection('lec_list')
                     .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text("Loading...");
@@ -152,9 +152,9 @@ class _LecListScreen extends State<LecListScreen> {
   }
 
 
-  Widget _buildBody(BuildContext context, Map lecInfo) {
+  Widget _buildBody(BuildContext context, Map lectureInformation) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('univ_list').document(lecInfo['univ']).collection('dep_list').document(lecInfo['dep']).collection('lec_list').snapshots(),
+      stream: Firestore.instance.collection('univ_list').document(lectureInformation['university']).collection('dep_list').document(lectureInformation['department']).collection('lec_list').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.documents);
