@@ -24,13 +24,20 @@ class _LecListScreen extends State<LecListScreen> {
         title: Text('授業リスト'),
       ),
       body: lecInfo['dep'] == '指定しない' ? Container(
-        child: Container(
-          child:  _buildAllLec(lecInfo),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: <Widget>[
+            _univName(lecInfo['univ']),
+            Expanded(
+              child: _buildAllLec(lecInfo),
+            ),
+          ],
         ),
       )
       : Container(
         child: Column(
           children: <Widget>[
+            _univName(lecInfo['univ']),
             _depName(lecInfo['dep']),
             Expanded(
               child:  _buildBody(context, lecInfo),
@@ -41,47 +48,102 @@ class _LecListScreen extends State<LecListScreen> {
     );
   }
 
+  Widget _univName(univ) {
+    return SizedBox(
+      child: Container(
+        margin: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        padding: const EdgeInsets.all(8.0),
+        alignment: Alignment.centerLeft,
+        child: Text(
+          univ,
+          style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _depName(dep) {
+    return SizedBox(
+      child: Container(
+        padding: EdgeInsets.only(bottom: 15.0),
+        alignment: Alignment.centerLeft,
+        child: Text(
+          dep,
+          style: TextStyle(fontSize: 25),
+        ),
+      ),
+    );
+  }
+
   Widget _buildAllLec(Map lecInfo) {
     return ListView.builder(
       itemCount: lecInfo['depList'].length,
       itemBuilder: (BuildContext context, int index) {
         return Container(
+          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, left: 8.0),
+          decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.grey)),
+          ),
           child: Column(
             children: <Widget>[
               _depName(lecInfo['depList'][index]),
               Column(children: <Widget>[
-                  StreamBuilder(
-                    stream: Firestore.instance.collection('univ_list').document(lecInfo['univ']).collection('dep_list').document(lecInfo['depList'][index]).collection('lec_list')
-                      .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return const Text("Loading...");
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, index) {
-                          final record = LectureSummary.fromSnapshot(snapshot.data.documents[index]);
-                          return SizedBox(
-                            child: Container(
-                              padding: EdgeInsets.all(15.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[50]),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(record.name),
-                                  _starRate(record.qualityAvg.round()),
-                                  _starRate(record.difficultyAvg.round())
-                                ],
-                              ),
+                StreamBuilder(
+                  stream: Firestore.instance.collection('univ_list').document(lecInfo['univ']).collection('dep_list').document(lecInfo['depList'][index]).collection('lec_list')
+                    .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return const Text("Loading...");
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        final record = LectureSummary.fromSnapshot(snapshot.data.documents[index]);
+                        return SizedBox(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 10.0),
+                            padding: EdgeInsets.all(15.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[600]),
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xffFAFAFA),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  spreadRadius: 1.0,
+                                  blurRadius: 5.0,
+                                  offset: Offset(5, 5),
+                                ),
+                              ],
                             ),
-                          );
-                        }
-                      );
-                    }
-                  ),
-                ],
-              )
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 10.0),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    record.name,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    _starRate(record.qualityAvg.round()),
+                                    _starRate(record.difficultyAvg.round()),
+                                    Text(record.quantity.toString())
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    );
+                  }
+                ),
+              ],)
             ],
           ),
         );
@@ -89,21 +151,6 @@ class _LecListScreen extends State<LecListScreen> {
     );
   }
 
-  Widget _depName(dep) {
-    return SizedBox(
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.centerLeft,
-        child: Text(
-          dep,
-          style: TextStyle(fontSize: 25),
-        ),
-        decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey)),
-        ),
-      ),
-    );
-  }
 
   Widget _buildBody(BuildContext context, Map lecInfo) {
     return StreamBuilder<QuerySnapshot>(
