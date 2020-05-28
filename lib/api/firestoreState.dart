@@ -4,48 +4,48 @@ import 'package:flutter/material.dart';
 class FirestoreState {
 
   static Future<List<String>> getUniversityList() async {
-    final List<String> universityList = [];
+    final List<String> universitys = [];
 
     QuerySnapshot query = await Firestore.instance.collection('univ_list').getDocuments();
     for (int i = 0; i < query.documents.length; i++) {
       var a = query.documents[i].documentID;
-      universityList.add(a);
+      universitys.add(a);
     }
-    return universityList;
+    return universitys;
   }
 
   static Future<List<String>> getDepartmentList(String _university) async {
-    final List<String> departmentList = [];
+    final List<String> departments = [];
 
     QuerySnapshot query = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').getDocuments();
-    departmentList.add('指定しない');
+    departments.add('指定しない');
     for (int i = 0; i < query.documents.length; i++) {
       var a = query.documents[i].documentID;
-      departmentList.add(a);
+      departments.add(a);
     }
-    return departmentList;
+    return departments;
   }
 
   static Future<List<String>> getLectureList(String _university, String _department) async {
-    final List<String> lectureList = [];
+    final List<String> lectures = [];
 
     QuerySnapshot query = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').getDocuments();
-    lectureList.add('指定しない');
+    lectures.add('指定しない');
     for (int i = 0; i < query.documents.length; i++) {
       var a = query.documents[i].documentID;
-      lectureList.add(a);
+      lectures.add(a);
     }
-    return lectureList;
+    return lectures;
   }
 
   static Future<Map<String, dynamic>> getLectureSummaryInfo(String _university, String _department, String _lecture) async {
-    Map<String, dynamic> lecSummaryInfo;
+    Map<String, dynamic> lectureSummaryInfo;
 
     DocumentSnapshot docSnapshot =
       await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').document(_lecture).get();
-    lecSummaryInfo = docSnapshot.data;
+    lectureSummaryInfo = docSnapshot.data;
 
-    return lecSummaryInfo;
+    return lectureSummaryInfo;
   }
 
 }
