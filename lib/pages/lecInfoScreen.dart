@@ -21,7 +21,7 @@ class _LectureInformationScreen extends State<LectureInformationScreen> {
       ),
       body: Column(
         children: <Widget>[
-          _lectureListHeader(),
+          _buildLectureListHeader(),
           Expanded(
             child: _buildBody(context, lectureInfo),
           ),
@@ -30,7 +30,7 @@ class _LectureInformationScreen extends State<LectureInformationScreen> {
     );
   }
 
-  Widget _lectureListHeader() {
+  Widget _buildLectureListHeader() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.0),
       decoration: BoxDecoration(
@@ -134,7 +134,7 @@ class _LectureInformationScreen extends State<LectureInformationScreen> {
     );
   }
   
-  Widget _starRate(int value) {
+  Widget _buildStarRate(int value) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(5, (index) {
@@ -161,7 +161,7 @@ class _LectureInformationScreen extends State<LectureInformationScreen> {
                   )
                 ),
                 SizedBox(width: 18.0),
-                _starRate(record.quality),
+                _buildStarRate(record.quality),
               ],
             ),
             SizedBox(height: 5.0),
@@ -174,7 +174,7 @@ class _LectureInformationScreen extends State<LectureInformationScreen> {
                   )
                 ),
                 SizedBox(width: 18.0),
-                _starRate(record.difficulty),
+                _buildStarRate(record.difficulty),
               ],
             ),
             SizedBox(height: 5.0),

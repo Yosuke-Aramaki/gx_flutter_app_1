@@ -75,7 +75,7 @@ class _AddScreenState extends State<AddScreen> {
     });
   }
 
-  Widget _universityDropdown(context) {
+  Widget _buildUniversityDropdown(context) {
     return Container(
       margin: EdgeInsets.only(top:5.0, left: 14.0),
       child: Row(
@@ -107,7 +107,7 @@ class _AddScreenState extends State<AddScreen> {
     );
   }
 
-  Widget _departmentDropdown() {
+  Widget _buildDepartmentDropdown() {
     if (_universitySelected) {
       return Container(
         margin: EdgeInsets.only(top:5.0, left: 14.0),
@@ -168,7 +168,7 @@ class _AddScreenState extends State<AddScreen> {
     }
   }
     
-  Widget _lectureDropdown() {
+  Widget _buildLectureDropdown() {
     if (_universitySelected && _departmentSelected) {
       return Container(
         margin: EdgeInsets.only(top:5.0, left: 14.0),
@@ -235,7 +235,7 @@ class _AddScreenState extends State<AddScreen> {
     ReviewsModel(title: "非常にわるい", value: 1),
   ];
 
-  Widget lectureQualityButton() {
+  Widget _buildLectureQualityButton() {
     return Container(
       margin: EdgeInsets.only(top:20.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
@@ -282,7 +282,7 @@ class _AddScreenState extends State<AddScreen> {
     ReviewsModel(title: "非常にむずかしい", value: 1),
   ];
 
-  Widget lectureDifficultyButton() {
+  Widget _buildLectureDifficultyButton() {
     return Container(
       margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
@@ -326,7 +326,7 @@ class _AddScreenState extends State<AddScreen> {
     ReviewsModel(title: "必須でない", value: 2),
   ];
 
-  Widget lectureAttendanceButton() {
+  Widget _buildLectureAttendanceButton() {
     return Container(
       margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
@@ -371,7 +371,7 @@ class _AddScreenState extends State<AddScreen> {
     ReviewsModel(title: "ほとんどない", value: 3),
   ];
 
-  Widget lectureHWFrequencyButton() {
+  Widget _buildLectureHWFrequencyButton() {
     return Container(
       margin: EdgeInsets.only(top:10.0, bottom: 10.0),
       padding: EdgeInsets.only(left: 10.0),
@@ -454,16 +454,16 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      _universityDropdown(context),
-                      _departmentDropdown(),
-                      _lectureDropdown(),
+                      _buildUniversityDropdown(context),
+                      _buildDepartmentDropdown(),
+                      _buildLectureDropdown(),
                     ],
                   ),
                 ),
-                lectureQualityButton(),
-                lectureDifficultyButton(),
-                lectureAttendanceButton(),
-                lectureHWFrequencyButton(),
+                _buildLectureQualityButton(),
+                _buildLectureDifficultyButton(),
+                _buildLectureAttendanceButton(),
+                _buildLectureHWFrequencyButton(),
                 Container(
                   margin: EdgeInsets.only(top:10.0),
                   padding: EdgeInsets.only(bottom: 8.0),

@@ -56,7 +56,7 @@ class _SearchScreen extends State<SearchScreen> {
     });
   }
 
-  Widget _universityDropdown(context) {
+  Widget _buildUniversityDropdown(context) {
     return Container(
       margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -86,7 +86,7 @@ class _SearchScreen extends State<SearchScreen> {
     );
   }
   
-  Widget _departmentDropdown() {
+  Widget _buildDepartmentDropdown() {
     if (_universitySelected) {
       return Container(
         margin: EdgeInsets.only(right: 40.0),
@@ -143,7 +143,7 @@ class _SearchScreen extends State<SearchScreen> {
     }
   }
     
-  Widget _lectureDropdown() {
+  Widget _buildLectureDropdown() {
     if (_universitySelected && _departmentSelected) {
       return Container(
         margin: EdgeInsets.only(right: 40.0),
@@ -199,7 +199,7 @@ class _SearchScreen extends State<SearchScreen> {
     }
   }
 
-  Widget _dropdownTitle (String value) {
+  Widget _buildDropdownTitle (String value) {
     return Container(
       alignment: Alignment.topLeft,
       padding: EdgeInsets.only(top: 40.0),
@@ -265,12 +265,12 @@ class _SearchScreen extends State<SearchScreen> {
                     ),
                   )
                 ),
-                _dropdownTitle('大学'),
-                _universityDropdown(context),
-                _dropdownTitle('学部'),
-                _departmentDropdown(),
-                _dropdownTitle('授業名'),
-                _lectureDropdown(),
+                _buildDropdownTitle('大学'),
+                _buildUniversityDropdown(context),
+                _buildDropdownTitle('学部'),
+                _buildDepartmentDropdown(),
+                _buildDropdownTitle('授業名'),
+                _buildLectureDropdown(),
                 SizedBox(height: 20.0),
                 Container(
                   child: RaisedButton(

@@ -27,9 +27,9 @@ class _LectureListScreen extends State<LectureListScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: <Widget>[
-            _universityName(lectureInformation['university']),
+            _buildUniversityName(lectureInformation['university']),
             Expanded(
-              child: _buildAllLec(lectureInformation),
+              child: _buildAllLecture(lectureInformation),
             ),
           ],
         ),
@@ -37,8 +37,8 @@ class _LectureListScreen extends State<LectureListScreen> {
       : Container(
         child: Column(
           children: <Widget>[
-            _universityName(lectureInformation['university']),
-            _departmentName(lectureInformation['department']),
+            _buildUniversityName(lectureInformation['university']),
+            _buildDepartmentName(lectureInformation['department']),
             Expanded(
               child:  _buildBody(context, lectureInformation),
             ),
@@ -48,7 +48,7 @@ class _LectureListScreen extends State<LectureListScreen> {
     );
   }
 
-  Widget _universityName(university) {
+  Widget _buildUniversityName(university) {
     return SizedBox(
       child: Container(
         margin: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -65,7 +65,7 @@ class _LectureListScreen extends State<LectureListScreen> {
     );
   }
 
-  Widget _departmentName(department) {
+  Widget _buildDepartmentName(department) {
     return SizedBox(
       child: Container(
         padding: EdgeInsets.only(bottom: 15.0),
@@ -78,7 +78,7 @@ class _LectureListScreen extends State<LectureListScreen> {
     );
   }
 
-  Widget _buildAllLec(Map lectureInformation) {
+  Widget _buildAllLecture(Map lectureInformation) {
     return ListView.builder(
       itemCount: lectureInformation['departmentList'].length,
       itemBuilder: (BuildContext context, int index) {
@@ -89,7 +89,7 @@ class _LectureListScreen extends State<LectureListScreen> {
           ),
           child: Column(
             children: <Widget>[
-              _departmentName(lectureInformation['departmentList'][index]),
+              _buildDepartmentName(lectureInformation['departmentList'][index]),
               Column(children: <Widget>[
                 StreamBuilder(
                   stream: Firestore.instance.collection('univ_list').document(lectureInformation['university']).collection('dep_list').document(lectureInformation['departmentList'][index]).collection('lec_list')
@@ -130,8 +130,8 @@ class _LectureListScreen extends State<LectureListScreen> {
                                 ),
                                 Row(
                                   children: <Widget>[
-                                    _starRate(record.qualityAvg.round()),
-                                    _starRate(record.difficultyAvg.round()),
+                                    _buildStarRate(record.qualityAvg.round()),
+                                    _buildStarRate(record.difficultyAvg.round()),
                                     Text(record.quantity.toString())
                                   ],
                                 ),
@@ -169,7 +169,7 @@ class _LectureListScreen extends State<LectureListScreen> {
     );
   }
   
-  Widget _starRate(int value) {
+  Widget _buildStarRate(int value) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(5, (index) {
