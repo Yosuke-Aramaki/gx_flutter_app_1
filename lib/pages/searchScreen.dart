@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gx_app_1/api/firestoreState.dart';
 
 class SearchScreen extends StatefulWidget {
   @override 
@@ -10,8 +11,9 @@ class _SearchScreen extends State<SearchScreen> {
   String _university;
   String _department = '指定しない';
   String _lecture = '指定しない';
-  List<String> depList = [];
-  List<String> lecList = [];
+  List<String> _universityList = [];
+  List<String> departmentList = [];
+  List<String> lectureList = [];
   bool _universitySelected = false;
   bool _departmentSelected = false;
   bool _lectureSelected = false;
@@ -19,35 +21,36 @@ class _SearchScreen extends State<SearchScreen> {
   var arguments = new Map();
   Map<String, dynamic> lecSummaryInfo;
 
-
-  Future<QuerySnapshot> getDepList() async {
-    QuerySnapshot dlist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').getDocuments();
-    depList = [];
-    depList.add('指定しない');
-    for (int i = 0; i < dlist.documents.length; i++) {
-      var a = dlist.documents[i].documentID;
-      depList.add(a);
-    }
-    setState(() {
-      _universitySelected = true;
+  @override
+  void initState() {
+    super.initState();
+    FirestoreState.getUniversityList().then((value) {
+      setState(() {
+        _universityList = value;
+      });
     });
   }
 
-  Future<QuerySnapshot> getLecList() async {
-    QuerySnapshot llist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').getDocuments();
-    lecList = [];
-    lecList.add('指定しない');
-    for (int i = 0; i < llist.documents.length; i++) {
-      var a = llist.documents[i].documentID;
-      lecList.add(a);
-    }
-    setState(() {
-      _departmentSelected = true;
+  void getDepartmentList() async {
+    await FirestoreState.getDepartmentList(_university).then((value) {
+      setState(() {
+        departmentList = value;
+        _universitySelected = true;
+      });
+    });
+  }
+
+  void getLectureList() async {
+    await FirestoreState.getLectureList(_university, _department).then((value) {
+      setState(() {
+        lectureList = value;
+        _departmentSelected = true;
+      });
     });
   }
 
   Widget _universityDropdown(context) {
-    List<String> univList = ModalRoute.of(context).settings.arguments;
+    //List<String> univList = ModalRoute.of(context).settings.arguments;
     return Container(
       margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -65,9 +68,9 @@ class _SearchScreen extends State<SearchScreen> {
             _department = '指定しない';
             _lecture = '指定しない';
           });
-          getDepList();
+          getDepartmentList();
         },
-        items: univList.map<DropdownMenuItem<String>>((String value) {
+        items: _universityList.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),
@@ -95,9 +98,9 @@ class _SearchScreen extends State<SearchScreen> {
               _department = value;
               _lecture = '指定しない';
             });
-            getLecList();
+            getLectureList();
           },
-          items: depList.map<DropdownMenuItem<String>>((String value) {
+          items: departmentList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -152,7 +155,7 @@ class _SearchScreen extends State<SearchScreen> {
               _lecture = value;
             });
           },
-          items: lecList.map<DropdownMenuItem<String>>((String value) {
+          items: lectureList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -211,7 +214,7 @@ class _SearchScreen extends State<SearchScreen> {
   }
 
   void removeDefaultValue(List<String> value) {
-    depList.removeAt(0);
+    departmentList.removeAt(0);
   }
 
   @override
@@ -282,8 +285,8 @@ class _SearchScreen extends State<SearchScreen> {
                     ),
                     onPressed: 
                     _department == '指定しない' && _lecture == '指定しない' ? () async{
-                      await removeDefaultValue(depList);
-                      arguments ={'university': _university, 'department': _department, 'departmentList': depList};
+                      await removeDefaultValue(departmentList);
+                      arguments ={'university': _university, 'department': _department, 'departmentList': departmentList};
                       Navigator.pushNamed(
                         context, 
                         '/LecListScreen',

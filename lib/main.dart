@@ -52,11 +52,9 @@ class HomePage extends StatelessWidget {
               RaisedButton(
                 child: Text('授業を検索'),
                 onPressed: () async {
-                  await getUnivList();
                   Navigator.pushNamed(
                     context, 
                     '/SearchScreen',
-                    arguments: (univList),
                   );
                 },
               ),
