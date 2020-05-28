@@ -75,32 +75,6 @@ class _AddScreenState extends State<AddScreen> {
     });
   }
 
-  // Future<QuerySnapshot> getDepList() async {
-  //   QuerySnapshot dlist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').getDocuments();
-  //   depList = [];
-  //   depList.add('指定しない');
-  //   for (int i = 0; i < dlist.documents.length; i++) {
-  //     var a = dlist.documents[i].documentID;
-  //     depList.add(a);
-  //   }
-  //   setState(() {
-  //     _universitySelected = true;
-  //   });
-  // }
-
-  // Future<QuerySnapshot> getLecList() async {
-  //   QuerySnapshot llist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').getDocuments();
-  //   lecList = [];
-  //   lecList.add('指定しない');
-  //   for (int i = 0; i < llist.documents.length; i++) {
-  //     var a = llist.documents[i].documentID;
-  //     lecList.add(a);
-  //   }
-  //   setState(() {
-  //     _departmentSelected = true;
-  //   });
-  // }
-
   Widget _universityDropdown(context) {
     return Container(
       margin: EdgeInsets.only(top:5.0, left: 14.0),

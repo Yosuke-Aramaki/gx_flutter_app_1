@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => HomePage(),
         '/SearchScreen': (context) => SearchScreen(),
         '/AddScreen': (context) => AddScreen(),
-        '/LectureInfoScreen': (context) => LectureInfoScreen(),
+        '/LectureInformationScreen': (context) => LectureInformationScreen(),
         '/LecListScreen': (context) => LectureListScreen(),
       },
     );

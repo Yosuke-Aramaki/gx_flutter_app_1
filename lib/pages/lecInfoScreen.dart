@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class LectureInfoScreen extends StatefulWidget {
+class LectureInformationScreen extends StatefulWidget {
   @override 
-  _LectureInfoScreen createState() {
-    return _LectureInfoScreen();
+  _LectureInformationScreen createState() {
+    return _LectureInformationScreen();
   }
 }
 
-class _LectureInfoScreen extends State<LectureInfoScreen> {
+class _LectureInformationScreen extends State<LectureInformationScreen> {
   var lectureInfo = new Map();
   
   @override
@@ -201,9 +201,9 @@ class _LectureInfoScreen extends State<LectureInfoScreen> {
                   )
                 ),
                 SizedBox(width: 18.0),
-                record.hw == 1 
+                record.homework == 1 
                 ? Text('毎回ある') : 
-                  record.hw ==2 
+                  record.homework ==2 
                   ? Text('たまに') : Text('ほとんどない'),
               ],
             ),
@@ -241,7 +241,7 @@ class LectureInformation {
   final int quality;
   final int difficulty;
   final int attendance;
-  final int hw;
+  final int homework;
   final String comment;
   final DocumentReference reference;
 
@@ -254,7 +254,7 @@ class LectureInformation {
       quality = map['quality'],
       difficulty = map['difficulty'],
       attendance = map['attendance'],
-      hw = map['hw'],
+      homework = map['hw'],
       comment = map['comment'];
   
   LectureInformation.fromSnapshot(DocumentSnapshot snapshot)
