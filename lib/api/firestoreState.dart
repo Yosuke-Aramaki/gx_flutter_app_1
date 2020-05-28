@@ -50,8 +50,8 @@ class FirestoreState {
 
 }
 
-class UniversityModel {
+class University {
   String name;
-  UniversityModel(this.name);
+  University(this.name);
 }
 
