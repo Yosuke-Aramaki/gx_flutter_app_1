@@ -16,36 +16,11 @@ class _AddScreenState extends State<AddScreen> {
   List<String> lectureList = [];
   bool _universitySelected = false;
   bool _departmentSelected = false;
-  bool _lectureSelected = false;
   int _lectureQuality;
   int _lectureDifficulty;
   int _lectureAttendance;
   int _lectureHWFrequency;
   final _commentController = TextEditingController();
-
-  void _setQuality(int value) {
-    setState(() {
-      _lectureQuality = value; 
-    });
-  }
-
-  void _setDifficulty(int value) {
-    setState(() {
-      _lectureDifficulty = value; 
-    });
-  }
-
-  void _setAttendance(int value) {
-    setState(() {
-      _lectureAttendance = value; 
-    });
-  }
-  
-  void _setHWFrequency(int value) {
-    setState(() {
-      _lectureHWFrequency = value; 
-    });
-  }
 
   @override
   void initState() {

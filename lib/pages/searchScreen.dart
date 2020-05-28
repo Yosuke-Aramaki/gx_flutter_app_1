@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gx_app_1/api/firestoreState.dart';
 
@@ -16,7 +15,6 @@ class _SearchScreen extends State<SearchScreen> {
   List<String> lectureList = [];
   bool _universitySelected = false;
   bool _departmentSelected = false;
-  bool _lectureSelected = false;
   var arguments = new Map();
   Map<String, dynamic> lectureSummaryInfo;
 
@@ -285,7 +283,7 @@ class _SearchScreen extends State<SearchScreen> {
                     ),
                     onPressed: 
                     _department == '指定しない' && _lecture == '指定しない' ? () async{
-                      await removeDefaultValue(departmentList);
+                      removeDefaultValue(departmentList);
                       arguments ={'university': _university, 'department': _department, 'departmentList': departmentList};
                       Navigator.pushNamed(
                         context, 
@@ -300,7 +298,7 @@ class _SearchScreen extends State<SearchScreen> {
                         arguments: arguments,
                       );
                     } : () async{
-                      await getLectureSummaryInfo();
+                      getLectureSummaryInfo();
                       arguments ={'university': _university, 'department': _department, 'lecture': _lecture, 'lectureSummary': lectureSummaryInfo};
                       print(arguments);
                       Navigator.pushNamed(

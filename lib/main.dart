@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gx_app_1/pages/addScreen.dart';
 import 'package:gx_app_1/pages/lecInfoScreen.dart';
@@ -25,16 +24,6 @@ class MyApp extends StatelessWidget {
 
 
 class HomePage extends StatelessWidget {
-  List<String> univList = [];
-
-  Future<QuerySnapshot> getUnivList() async {
-    univList = [];
-    QuerySnapshot ulist = await Firestore.instance.collection('univ_list').getDocuments();
-    for (int i = 0; i < ulist.documents.length; i++) {
-      var a = ulist.documents[i].documentID;
-      univList.add(a);
-    }
-  }
 
   @override 
   Widget build(BuildContext context) {
@@ -61,11 +50,9 @@ class HomePage extends StatelessWidget {
               RaisedButton(
                 child: Text('授業評価を投稿'),
                 onPressed: () async {
-                  await getUnivList();
                   Navigator.pushNamed(
                     context, 
                     '/AddScreen',
-                    arguments: (univList),
                   );
                 },
               )
