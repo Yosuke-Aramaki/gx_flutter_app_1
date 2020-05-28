@@ -17,9 +17,8 @@ class _SearchScreen extends State<SearchScreen> {
   bool _universitySelected = false;
   bool _departmentSelected = false;
   bool _lectureSelected = false;
-  // Set arguments = {};
   var arguments = new Map();
-  Map<String, dynamic> lecSummaryInfo;
+  Map<String, dynamic> lectureSummaryInfo;
 
   @override
   void initState() {
@@ -49,8 +48,15 @@ class _SearchScreen extends State<SearchScreen> {
     });
   }
 
+  void getLectureSummaryInfo() async {
+    await FirestoreState.getLectureSummaryInfo(_university, _department, _lecture).then((value) {
+      setState(() {
+        lectureSummaryInfo = value;
+      });
+    });
+  }
+
   Widget _universityDropdown(context) {
-    //List<String> univList = ModalRoute.of(context).settings.arguments;
     return Container(
       margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -207,12 +213,6 @@ class _SearchScreen extends State<SearchScreen> {
     );
   }
 
-  Future<Map<String, dynamic>> getLecSummaryInfo() async {
-    DocumentSnapshot docSnapshot =
-      await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').document(_lecture).get();
-    lecSummaryInfo = docSnapshot.data;
-  }
-
   void removeDefaultValue(List<String> value) {
     departmentList.removeAt(0);
   }
@@ -300,8 +300,8 @@ class _SearchScreen extends State<SearchScreen> {
                         arguments: arguments,
                       );
                     } : () async{
-                      await getLecSummaryInfo();
-                      arguments ={'university': _university, 'department': _department, 'lecture': _lecture, 'lectureSummary': lecSummaryInfo};
+                      await getLectureSummaryInfo();
+                      arguments ={'university': _university, 'department': _department, 'lecture': _lecture, 'lectureSummary': lectureSummaryInfo};
                       Navigator.pushNamed(
                         context, 
                         '/LectureInformationScreen',

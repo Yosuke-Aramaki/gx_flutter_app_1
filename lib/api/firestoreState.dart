@@ -38,6 +38,16 @@ class FirestoreState {
     return lectureList;
   }
 
+  static Future<Map<String, dynamic>> getLectureSummaryInfo(String _university, String _department, String _lecture) async {
+    Map<String, dynamic> lecSummaryInfo;
+
+    DocumentSnapshot docSnapshot =
+      await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').document(_lecture).get();
+    lecSummaryInfo = docSnapshot.data;
+
+    return lecSummaryInfo;
+  }
+
 }
 
 class UniversityModel {

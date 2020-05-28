@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gx_app_1/api/firestoreState.dart';
 
 class AddScreen extends StatefulWidget {
   @override
@@ -10,8 +11,9 @@ class _AddScreenState extends State<AddScreen> {
   String _university;
   String _department;
   String _lecture;
-  List<String> depList = [];
-  List<String> lecList = [];
+  List<String> _universityList = [];
+  List<String> departmentList = [];
+  List<String> lectureList = [];
   bool _universitySelected = false;
   bool _departmentSelected = false;
   bool _lectureSelected = false;
@@ -45,34 +47,61 @@ class _AddScreenState extends State<AddScreen> {
     });
   }
 
-  Future<QuerySnapshot> getDepList() async {
-    QuerySnapshot dlist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').getDocuments();
-    depList = [];
-    depList.add('指定しない');
-    for (int i = 0; i < dlist.documents.length; i++) {
-      var a = dlist.documents[i].documentID;
-      depList.add(a);
-    }
-    setState(() {
-      _universitySelected = true;
+  @override
+  void initState() {
+    super.initState();
+    FirestoreState.getUniversityList().then((value) {
+      setState(() {
+        _universityList = value;
+      });
     });
   }
 
-  Future<QuerySnapshot> getLecList() async {
-    QuerySnapshot llist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').getDocuments();
-    lecList = [];
-    lecList.add('指定しない');
-    for (int i = 0; i < llist.documents.length; i++) {
-      var a = llist.documents[i].documentID;
-      lecList.add(a);
-    }
-    setState(() {
-      _departmentSelected = true;
+  void getDepartmentList() async {
+    await FirestoreState.getDepartmentList(_university).then((value) {
+      setState(() {
+        departmentList = value;
+        _universitySelected = true;
+      });
     });
   }
+
+  void getLectureList() async {
+    await FirestoreState.getLectureList(_university, _department).then((value) {
+      setState(() {
+        lectureList = value;
+        _departmentSelected = true;
+      });
+    });
+  }
+
+  // Future<QuerySnapshot> getDepList() async {
+  //   QuerySnapshot dlist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').getDocuments();
+  //   depList = [];
+  //   depList.add('指定しない');
+  //   for (int i = 0; i < dlist.documents.length; i++) {
+  //     var a = dlist.documents[i].documentID;
+  //     depList.add(a);
+  //   }
+  //   setState(() {
+  //     _universitySelected = true;
+  //   });
+  // }
+
+  // Future<QuerySnapshot> getLecList() async {
+  //   QuerySnapshot llist = await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').getDocuments();
+  //   lecList = [];
+  //   lecList.add('指定しない');
+  //   for (int i = 0; i < llist.documents.length; i++) {
+  //     var a = llist.documents[i].documentID;
+  //     lecList.add(a);
+  //   }
+  //   setState(() {
+  //     _departmentSelected = true;
+  //   });
+  // }
 
   Widget _universityDropdown(context) {
-    List<String> univList = ModalRoute.of(context).settings.arguments;
     return Container(
       margin: EdgeInsets.only(top:5.0, left: 14.0),
       child: Row(
@@ -90,9 +119,9 @@ class _AddScreenState extends State<AddScreen> {
                 _department = '指定しない';
                 _lecture = '指定しない';
               });
-              getDepList();
+              getDepartmentList();
             },
-            items: univList.map<DropdownMenuItem<String>>((String value) {
+            items: _universityList.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -122,9 +151,9 @@ class _AddScreenState extends State<AddScreen> {
                   _department = value;
                   _lecture = '指定しない';
                 });
-                getLecList();
+                getLectureList();
               },
-              items: depList.map<DropdownMenuItem<String>>((String value) {
+              items: departmentList.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -183,7 +212,7 @@ class _AddScreenState extends State<AddScreen> {
                   _lecture = value;
                 });
               },
-              items: lecList.map<DropdownMenuItem<String>>((String value) {
+              items: lectureList.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
