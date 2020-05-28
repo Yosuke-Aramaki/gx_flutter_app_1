@@ -265,11 +265,11 @@ class _SearchScreen extends State<SearchScreen> {
                     ),
                   )
                 ),
-                _dropDownTitle('大学'),
+                _dropdownTitle('大学'),
                 _universityDropdown(context),
-                _dropDownTitle('学部'),
+                _dropdownTitle('学部'),
                 _departmentDropdown(),
-                _dropDownTitle('授業名'),
+                _dropdownTitle('授業名'),
                 _lectureDropdown(),
                 SizedBox(height: 20.0),
                 Container(
