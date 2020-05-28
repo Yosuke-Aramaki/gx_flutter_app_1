@@ -199,7 +199,7 @@ class _SearchScreen extends State<SearchScreen> {
     }
   }
 
-  Widget _dropDownTitle (String value) {
+  Widget _dropdownTitle (String value) {
     return Container(
       alignment: Alignment.topLeft,
       padding: EdgeInsets.only(top: 40.0),
