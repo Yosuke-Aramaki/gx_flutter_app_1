@@ -14,8 +14,6 @@ class _LectureInformationScreen extends State<LectureInformationScreen> {
   @override
   Widget build(BuildContext context) {
     lectureInfo = ModalRoute.of(context).settings.arguments;
-    print(lectureInfo);
-    print(lectureInfo['lectureSummary']);
     return Scaffold(
       appBar: AppBar(
         title: Text(lectureInfo['lecture']),
