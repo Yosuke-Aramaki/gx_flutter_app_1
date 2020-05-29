@@ -43,7 +43,7 @@ class FirestoreState {
     DocumentSnapshot docSnapshot =
       await Firestore.instance.collection('univ_list').document(_university).collection('dep_list').document(_department).collection('lec_list').document(_lecture).get();
     lectureSummaryInfo = docSnapshot.data;
-
+    
     return lectureSummaryInfo;
   }
 

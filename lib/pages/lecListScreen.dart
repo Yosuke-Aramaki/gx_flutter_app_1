@@ -114,8 +114,7 @@ class _LectureListScreen extends State<LectureListScreen> {
                         final record = LectureSummary.fromSnapshot(snapshot.data.documents[index2]);
                         return GestureDetector(
                           onTap: () async {
-                            getLectureSummaryInfo(lectureInformation['departmentList'][index1], record.name);
-                            arguments ={'university': lectureInformation['university'], 'department': lectureInformation['departmentList'][index1], 'lecture': record.name, 'lectureSummary': lectureSummaryInfo};
+                            arguments ={'university': lectureInformation['university'], 'department': lectureInformation['departmentList'][index1], 'lecture': record.name, 'lectureSummary': {'quantity': record.quantity, 'qualityAvg': record.qualityAvg, 'difficultyAvg': record.difficultyAvg, 'name': record.name}};
                             Navigator.pushNamed(
                               context,
                               '/LectureInformationScreen',

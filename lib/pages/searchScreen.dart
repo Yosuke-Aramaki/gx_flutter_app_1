@@ -298,9 +298,8 @@ class _SearchScreen extends State<SearchScreen> {
                         arguments: arguments,
                       );
                     } : () async{
-                      getLectureSummaryInfo();
-                      arguments ={'university': _university, 'department': _department, 'lecture': _lecture, 'lectureSummary': lectureSummaryInfo};
-                      print(arguments);
+                      await getLectureSummaryInfo();
+                      arguments = {'university': _university, 'department': _department, 'lecture': _lecture, 'lectureSummary': lectureSummaryInfo};
                       Navigator.pushNamed(
                         context, 
                         '/LectureInformationScreen',
