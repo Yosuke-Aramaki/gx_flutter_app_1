@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gx_app_1/api/firestoreState.dart';
+// import 'package:cloud_functions/cloud_functions.dart';
 
 class AddScreen extends StatefulWidget {
   @override
@@ -461,6 +462,9 @@ class _AddScreenState extends State<AddScreen> {
                 ),
                 SizedBox(height: 30.0),
                 RaisedButton(
+                  padding: EdgeInsets.all(10.0),
+                  color: Color(0xff4C8CEB),
+                  shape: StadiumBorder(),
                   child: Text('投稿する'),
                   onPressed: () async {
                     await Firestore.instance.collection(_university).document(_department).collection(_lecture).document().setData(
@@ -472,6 +476,20 @@ class _AddScreenState extends State<AddScreen> {
                         "comment": _commentController.text,
                       }
                     );
+                    // try {
+                    //   final dynamic resp = await CloudFunctions.instance.call(
+                    //     functionName: 'calculateAverage',
+                    //     parameters: <String, String>{
+                    //       'university': _university,
+                    //       'department': _department,
+                    //       'lecture': _lecture,
+                    //     },
+                    //   );
+                    //   print(resp);
+                    // } catch (e) {
+                    //   print('caught generic exception');
+                    //   print(e);
+                    // }
                     Navigator.pop(context);
                   },
                 ),

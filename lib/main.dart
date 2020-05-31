@@ -31,15 +31,40 @@ class HomePage extends StatelessWidget {
       title: '',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Home Screen'),
+          iconTheme: IconThemeData(
+            color: Colors.black, 
+          ),
+          backgroundColor: Color(0xffFAFAFA),
+          elevation: 0.0,
+          title: Text(''),
         ),
         body: Container(
           padding: const EdgeInsets.all(32),
           alignment: Alignment.center,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               RaisedButton(
-                child: Text('授業を検索'),
+                padding: EdgeInsets.all(18.0),
+                color: Color(0xff4C8CEB),
+                shape: StadiumBorder(),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      '授業を検索',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[50],
+                      ),
+                    ),
+                    Icon(
+                      Icons.search,
+                      color: Colors.grey[50],
+                      size: 24.0,
+                    ),
+                  ],
+                ),
                 onPressed: () async {
                   Navigator.pushNamed(
                     context, 
@@ -47,8 +72,28 @@ class HomePage extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 80),
               RaisedButton(
-                child: Text('授業評価を投稿'),
+                padding: EdgeInsets.all(18.0),
+                color: Color(0xff4C8CEB),
+                shape: StadiumBorder(),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      '授業評価を投稿',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[50],
+                      ),
+                    ),
+                    Icon(
+                      Icons.add_circle_outline,
+                      color: Colors.grey[50],
+                      size: 24.0,
+                    ),
+                  ],
+                ),
                 onPressed: () async {
                   Navigator.pushNamed(
                     context, 

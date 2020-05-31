@@ -56,16 +56,15 @@ class _SearchScreen extends State<SearchScreen> {
 
   Widget _buildUniversityDropdown(context) {
     return Container(
-      margin: EdgeInsets.only(right: 40.0),
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        decoration: BoxDecoration(
-          border: Border.all(color: Color(0xffBEBEBE)),
-          borderRadius: BorderRadius.circular(40),
-        ),
-        child: DropdownButton<String>(
-          value: _university,
-          isExpanded: true,
-          underline: Container(),
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Color(0xffBEBEBE)),
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: DropdownButton<String>(
+        value: _university,
+        isExpanded: true,
+        underline: Container(),
         onChanged: (String value) {
           setState(() {
             _university = value;
@@ -87,7 +86,6 @@ class _SearchScreen extends State<SearchScreen> {
   Widget _buildDepartmentDropdown() {
     if (_universitySelected) {
       return Container(
-        margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
         decoration: BoxDecoration(
           border: Border.all(color: Color(0xffBEBEBE)),
@@ -115,7 +113,6 @@ class _SearchScreen extends State<SearchScreen> {
     }
     else {
       return Container(
-        margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
         decoration: BoxDecoration(
           border: Border.all(color: Color(0xffBEBEBE)),
@@ -144,7 +141,6 @@ class _SearchScreen extends State<SearchScreen> {
   Widget _buildLectureDropdown() {
     if (_universitySelected && _departmentSelected) {
       return Container(
-        margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
         decoration: BoxDecoration(
           border: Border.all(color: Color(0xffBEBEBE)),
@@ -170,7 +166,6 @@ class _SearchScreen extends State<SearchScreen> {
     }
     else {
       return Container(
-        margin: EdgeInsets.only(right: 40.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
         decoration: BoxDecoration(
           border: Border.all(color: Color(0xffBEBEBE)),
@@ -199,11 +194,9 @@ class _SearchScreen extends State<SearchScreen> {
 
   Widget _buildDropdownTitle (String value) {
     return Container(
-      alignment: Alignment.topLeft,
-      padding: EdgeInsets.only(top: 40.0),
+      padding: EdgeInsets.only(top: 40.0, bottom: 8.0),
       child: Text(
         value,
-        textAlign: TextAlign.left,
         style: TextStyle(
           fontSize: 18,
         ),
@@ -234,81 +227,81 @@ class _SearchScreen extends State<SearchScreen> {
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(top:60.0, right: 20.0, left: 20.0),
-              padding: EdgeInsets.only(top:40.0, left: 40.0, bottom: 40.0),
+              padding: EdgeInsets.only(top:40.0, right: 35.0, left: 35.0, bottom: 40.0),
               alignment: Alignment.topLeft,
               decoration: BoxDecoration(
                 color: Colors.grey[50],
                 border: Border.all(color: Colors.grey[50]),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Column(children: <Widget>[
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    '検索',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    '大学、学部、科目名を選択して検索できます',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  )
-                ),
-                _buildDropdownTitle('大学'),
-                _buildUniversityDropdown(context),
-                _buildDropdownTitle('学部'),
-                _buildDepartmentDropdown(),
-                _buildDropdownTitle('授業名'),
-                _buildLectureDropdown(),
-                SizedBox(height: 20.0),
-                Container(
-                  child: RaisedButton(
-                    padding: EdgeInsets.all(10.0),
-                    color: Color(0xff4C8CEB),
-                    shape: StadiumBorder(),
-                    child:Text(
-                      '検索する',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      '検索',
                       style: TextStyle(
-                        color: Colors.grey[50],
+                        fontSize: 28,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    onPressed: 
-                    _department == '指定しない' && _lecture == '指定しない' ? () async{
-                      removeDefaultValue(departmentList);
-                      arguments ={'university': _university, 'department': _department, 'departmentList': departmentList};
-                      Navigator.pushNamed(
-                        context, 
-                        '/LecListScreen',
-                        arguments: arguments,
-                      );
-                    } : _department != '指定しない' && _lecture == '指定しない' ? () async{
-                      arguments ={'university': _university, 'department': _department, 'lecture': _lecture};
-                      Navigator.pushNamed(
-                        context, 
-                        '/LecListScreen',
-                        arguments: arguments,
-                      );
-                    } : () async{
-                      await getLectureSummaryInfo();
-                      arguments = {'university': _university, 'department': _department, 'lecture': _lecture, 'lectureSummary': lectureSummaryInfo};
-                      Navigator.pushNamed(
-                        context, 
-                        '/LectureInformationScreen',
-                        arguments: arguments,
-                      );
-                    } 
                   ),
-                ),
-              ],),
+                  Container(
+                    child: Text(
+                      '大学、学部、科目名を選択して検索できます',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    )
+                  ),
+                  _buildDropdownTitle('大学'),
+                  _buildUniversityDropdown(context),
+                  _buildDropdownTitle('学部'),
+                  _buildDepartmentDropdown(),
+                  _buildDropdownTitle('授業名'),
+                  _buildLectureDropdown(),
+                  SizedBox(height: 20.0),
+                  Container(
+                    alignment: AlignmentDirectional.topCenter,
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(10.0),
+                      color: Color(0xff4C8CEB),
+                      shape: StadiumBorder(),
+                      child:Text(
+                        '検索する',
+                        style: TextStyle(
+                          color: Colors.grey[50],
+                        ),
+                      ),
+                      onPressed: _department == '指定しない' && _lecture == '指定しない' ? () async{
+                        removeDefaultValue(departmentList);
+                        arguments ={'university': _university, 'department': _department, 'departmentList': departmentList};
+                        Navigator.pushNamed(
+                          context, 
+                          '/LecListScreen',
+                          arguments: arguments,
+                        );
+                      } : _department != '指定しない' && _lecture == '指定しない' ? () async{
+                        arguments ={'university': _university, 'department': _department, 'lecture': _lecture};
+                        Navigator.pushNamed(
+                          context, 
+                          '/LecListScreen',
+                          arguments: arguments,
+                        );
+                      } : () async{
+                        await getLectureSummaryInfo();
+                        arguments = {'university': _university, 'department': _department, 'lecture': _lecture, 'lectureSummary': lectureSummaryInfo};
+                        Navigator.pushNamed(
+                          context, 
+                          '/LectureInformationScreen',
+                          arguments: arguments,
+                        );
+                      } 
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],  
         ),

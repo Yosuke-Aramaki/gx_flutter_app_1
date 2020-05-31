@@ -1,9 +1,7 @@
 const functions = require('firebase-functions')
-// cloud functionでfirestoreを使うのに必要な設定は以下の２行
 const admin = require('firebase-admin')
 admin.initializeApp(functions.config().firebase)
 
-// データベースの参照を作成
 var fireStore = admin.firestore()
 
 exports.calculateAverage = functions.https.onRequest(async (request, response) => {
